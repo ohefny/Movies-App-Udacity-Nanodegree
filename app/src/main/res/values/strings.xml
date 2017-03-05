@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NanoMovieProject</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="BaseMoviesUrl">http://api.themoviedb.org/</string>
+    <string name="API_KEY">b8be982434834910f4662f9e5fb3bacb</string>
+    <string name="pref_sort">\"Sort\"</string>
+    <string name="sort_via_popularity">\"popularity\"</string>
+    <string name="title_activity_details">DetailsActivity</string>
+</resources>
