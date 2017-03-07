@@ -51,7 +51,7 @@ public class MoviesLoader implements Callback<MoviesList> {
 
         TMDBAPI tmdbapi = retrofit.create(TMDBAPI.class);
         try {
-            Call<MoviesList> call = tmdbapi.getMovies(pageNumber,API_KEY,sortCriteria);
+            Call<MoviesList> call = tmdbapi.getMovies(sortCriteria,pageNumber,API_KEY);
             call.enqueue(this);
             Log.d(MoviesLoader.class.getSimpleName(),call.request().url().toString());
 

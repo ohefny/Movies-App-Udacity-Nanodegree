@@ -2,19 +2,19 @@
     android:id="@+id/nestedscrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3eb69e"
+            android:background="@color/bgcolor"
             android:orientation="vertical"
             android:paddingBottom="30dp"
             android:paddingLeft="20dp">
@@ -27,7 +27,7 @@
                 android:clickable="false"
                 android:paddingTop="20dp"
                 android:text="Title"
-                android:textColor="#ffffff"
+                android:textColor="@android:color/white"
                 android:textSize="25dp"
 
                 />
@@ -36,7 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@android:color/white"
             android:orientation="horizontal"
             android:paddingLeft="30dp"
             android:paddingTop="10dp"
@@ -56,7 +56,7 @@
                 android:layout_height="match_parent"
 
                 android:layout_weight="2"
-                android:background="#ffffff"
+                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:layout_marginLeft="7dp"
                 >
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:text="TEXT"
-                    android:textColor="#8b8989"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="25dp"
 
                     />
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:text="TEXT"
-                    android:textColor="#8b8989"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="20dp"
 
                     />
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:text="TEXT"
-                    android:textColor="#8b8989"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="18dp" />
 
             <!--    <CheckBox
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingTop="0dp"
-            android:textColor="#8b8989"
+            android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
         <!--
                 <TextView

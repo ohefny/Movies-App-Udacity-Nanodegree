@@ -27,7 +27,7 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
     Thread monitorThread;
     String sortCriteria;
     public GridPresenter(String sortCriteria){
-        this.sortCriteria=sortCriteria+".desc";
+        this.sortCriteria=sortCriteria;
 
        // initNetworkMonitor();
         loadMovies();
@@ -104,9 +104,9 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
     }
 
     public void setSortCriteria(String sortCriteria) {
-        if(this.sortCriteria.equals(sortCriteria+".desc"))
+        if(this.sortCriteria.equals(sortCriteria))
             return;
-        this.sortCriteria = sortCriteria+".desc";
+        this.sortCriteria = sortCriteria;
         pageNumber=1;
         model=null;
         loadMovies();

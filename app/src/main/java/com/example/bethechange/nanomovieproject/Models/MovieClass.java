@@ -2,6 +2,9 @@ package com.example.bethechange.nanomovieproject.Models;
 
 import android.net.Uri;
 
+import com.example.bethechange.nanomovieproject.MovieProjectApplication;
+import com.example.bethechange.nanomovieproject.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +31,10 @@ public class MovieClass {
     boolean video;
     ArrayList<VideoInfo> videosInfo;
     ArrayList<Review>reviews;
-    String BASE_IMG_URL = "http://image.tmdb.org/t/p/w185/";
-    final String BASE_URL = "http://api.themoviedb.org/3/movie/";
-    final String API_KEY = "?api_key=b8be982434834910f4662f9e5fb3bacb";
+    String BASE_IMG_URL = MovieProjectApplication.getContext().getResources().getString(R.string.base_image_url);
+
+
+
     @Override
     public boolean equals(Object o) {
         if(o instanceof  MovieClass){

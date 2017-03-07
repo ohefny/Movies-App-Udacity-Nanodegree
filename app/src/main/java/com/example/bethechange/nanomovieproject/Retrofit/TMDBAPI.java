@@ -7,6 +7,7 @@ import com.example.bethechange.nanomovieproject.Models.MoviesList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,11 +17,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public interface TMDBAPI {
-    @GET("/3/discover/movie")
+    @GET("/3/movie/{sort_by}")
     Call<MoviesList> getMovies(
+            @Path("sort_by") String sortCriterie,
             @Query("page") int page,
-            @Query("api_key")String key,
-            @Query("sort_by")String sortCriterie);
+            @Query("api_key")String key
+            );
 
 
 }
