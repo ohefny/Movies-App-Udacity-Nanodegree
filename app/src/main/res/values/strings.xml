@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="BaseMoviesUrl">http://api.themoviedb.org/</string>
-
+    <string name="API_KEY">b8be982434834910f4662f9e5fb3bacb</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="sort_by">Sort By</string>
     <string name="pref_sort">Sorting</string>
@@ -16,13 +16,13 @@
         <item>vote_average</item>
         <item>popularity</item>
         <item>vote_count</item>
-        <item>favorites</item>
+        <!--<item>favorites</item>-->
     </array>
     <array name="pref_sort_options">
         <item>By Top Rate</item>
         <item>By Popularity</item>
         <item>By Vote count</item>
-        <item>Favorites</item>
+       <!-- <item>Favorites</item>-->
 
     </array>
 </resources>
