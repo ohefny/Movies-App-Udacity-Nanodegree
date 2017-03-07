@@ -79,6 +79,7 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
     }
 
     @Override
