@@ -55,6 +55,17 @@ public class MoviesFragment extends BasePresenterFragment<GridPresenter,GridScre
     }
 
     @Override
+    public void onResume() {
+
+        String sortStr=MovieProjectApplication.getSharedPrefrences().getString(
+                MovieProjectApplication.getContext().getString(R.string.pref_sort),
+                MovieProjectApplication.getContext().getString(R.string.sort_via_popularity));
+        if(getPresenter()!=null)
+            getPresenter().setSortCriteria(sortStr);
+        super.onResume();
+    }
+
+    @Override
     protected void onPresenterPrepared(@NonNull GridPresenter presenter) {
         super.onPresenterPrepared(presenter);
 

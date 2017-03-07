@@ -110,4 +110,7 @@ public abstract class BasePresenterFragment<P extends BasePresenter, V> extends 
     protected void setPrepared(boolean prepared) {
         isPrepared = prepared;
     }
+    protected P getPresenter(){
+        return presenter;
+    }
 }

@@ -6,10 +6,11 @@
     <string name="BaseMoviesUrl">http://api.themoviedb.org/</string>
     <string name="API_KEY">b8be982434834910f4662f9e5fb3bacb</string>
     <string name="title_activity_details">DetailsActivity</string>
-    <string name="sort_by">sort_by</string>
+    <string name="sort_by">Sort By</string>
     <string name="pref_sort">Sorting</string>
     <string name="sort_via_rate">highest_rated</string>
     <string name="sort_via_popularity">popularity</string>
+    <string name="action_settings">Settings</string>
 
     <array name="pref_sort_values">
         <item>vote_average</item>

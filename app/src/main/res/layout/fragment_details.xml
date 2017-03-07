@@ -26,7 +26,7 @@
 
                 android:clickable="false"
                 android:paddingTop="20dp"
-                android:text="TEXT"
+                android:text="Title"
                 android:textColor="#ffffff"
                 android:textSize="25dp"
 

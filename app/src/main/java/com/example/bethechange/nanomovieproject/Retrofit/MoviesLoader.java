@@ -29,6 +29,8 @@ public class MoviesLoader implements Callback<MoviesList> {
     final static String BaseUrl=MovieProjectApplication.getContext().getResources().getString(R.string.BaseMoviesUrl);
     int pageNo=1;
     String sortCriteria;
+    final int  MAX_TRIES=10;
+    int attempts=0;
     GridScreenContract.LoaderActions mListener;
 
     public MoviesLoader(GridScreenContract.LoaderActions interactor){
@@ -60,7 +62,7 @@ public class MoviesLoader implements Callback<MoviesList> {
     }
     @Override
     public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
-
+        attempts=0;
         Log.d(MoviesLoader.class.getSimpleName(),String.valueOf(response.isSuccessful()));
 
       mListener.onMovieListLoaded(response.body());
@@ -68,8 +70,9 @@ public class MoviesLoader implements Callback<MoviesList> {
 
     @Override
     public void onFailure(Call<MoviesList> call, Throwable t) {
-       mListener.onMovieListFailure();
-       start(pageNo,sortCriteria);
+        mListener.onMovieListFailure();
+        if(attempts++<MAX_TRIES)
+            start(pageNo,sortCriteria);
         Log.d(MoviesLoader.class.getSimpleName(),"false");
     }
 }

@@ -15,6 +15,10 @@ public class MoviesList {
     int total_pages=15054;
     int total_results=301061;
 
+
+    @SerializedName("page")
+    int loaded_pages=0;
+
     public ArrayList<MovieClass> getMovies() {
         return movies;
     }
@@ -38,4 +42,12 @@ public class MoviesList {
     public void setTotal_results(int total_results) {
         this.total_results = total_results;
     }
+    public int getLoaded_pages() {
+        return loaded_pages;
+    }
+
+    public void setLoaded_pages(int loaded_pages) {
+        this.loaded_pages = loaded_pages;
+    }
+
 }

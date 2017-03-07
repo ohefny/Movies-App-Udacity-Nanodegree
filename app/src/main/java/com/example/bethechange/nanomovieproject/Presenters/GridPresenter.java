@@ -7,8 +7,10 @@ import android.util.Log;
 import com.example.bethechange.nanomovieproject.GridScreenContract;
 import com.example.bethechange.nanomovieproject.Models.MoviesList;
 import com.example.bethechange.nanomovieproject.MovieProjectApplication;
+import com.example.bethechange.nanomovieproject.NetworkMonitor;
 import com.example.bethechange.nanomovieproject.R;
 import com.example.bethechange.nanomovieproject.Retrofit.MoviesLoader;
+import com.example.bethechange.nanomovieproject.Utility;
 import com.example.bethechange.nanomovieproject.base.BasePresenter;
 import com.example.bethechange.nanomovieproject.base.PresenterFactory;
 
@@ -16,27 +18,62 @@ import com.example.bethechange.nanomovieproject.base.PresenterFactory;
  * Created by BeTheChange on 3/2/2017.
  */
 
-public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.View> implements GridScreenContract.LoaderActions,GridScreenContract.ListActions{
+public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.View> implements
+        GridScreenContract.LoaderActions,GridScreenContract.ListActions,NetworkMonitor.NetworkStateListener{
     MoviesLoader moviesLoader=new MoviesLoader(this);
     int pageNumber=1;
-
-
+    boolean connectionError=false;
+    NetworkMonitor monitor;
+    Thread monitorThread;
     String sortCriteria;
     public GridPresenter(String sortCriteria){
         this.sortCriteria=sortCriteria+".desc";
-        loadMovies(pageNumber, this.sortCriteria);
 
+       // initNetworkMonitor();
+        loadMovies();
     }
 
-    private void loadMovies(int pageNumber, String sortCriteria) {
-        moviesLoader.start(pageNumber, sortCriteria);
+    private void initNetworkMonitor() {
+        monitor=new NetworkMonitor();
+        monitor.registerListener(this);
+        monitorThread=new Thread(monitor);
+        monitorThread.start();
     }
+
+    @Override
+    public void unbindView() {
+        super.unbindView();
+       // monitor.unRegisterListener(this);
+    }
+
+    private void loadMovies() {
+       /* if(!monitorThread.isAlive())
+            initNetworkMonitor();*/
+        checkNetwork();
+        if(!connectionError){
+            int pageN=model==null?1:model.getLoaded_pages()+1;
+            moviesLoader.start(pageN, sortCriteria);
+        }
+    }
+
+    private void checkNetwork() {
+        if(!Utility.isNetworkAvailable()){
+            connectionError=true;
+            ariseError("Check Your Network Connectivity");
+        }
+        else {
+            connectionError=false;
+        }
+    }
+
 
     @Override
     public void bindView(@NonNull GridScreenContract.View view) {
         super.bindView(view);
         if(model!=null)
             updateView();
+    /*    if(connectionError)
+            view().showError("Please Check Your Network Connectivity");*/
     }
 
     @Override
@@ -50,10 +87,8 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
 
     @Override
     public void onLastItemLoaded() {
-       if(pageNumber<model.getTotal_pages()){
-            pageNumber++;
-            loadMovies(pageNumber,sortCriteria);
-        }
+            loadMovies();
+
     }
 
     public int getPageNumber() {
@@ -68,20 +103,25 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
         return sortCriteria;
     }
 
-    public void onSortCriteriaChanged(String sortCriteria) {
-        this.sortCriteria = sortCriteria;
-        loadMovies(pageNumber, sortCriteria);
+    public void setSortCriteria(String sortCriteria) {
+        if(this.sortCriteria.equals(sortCriteria+".desc"))
+            return;
+        this.sortCriteria = sortCriteria+".desc";
+        pageNumber=1;
+        model=null;
+        loadMovies();
     }
 
     @Override
     public void onMovieListLoaded(MoviesList moviesList) {
         if(moviesList==null){
             Log.d("MoviesLoader","moviesList is null");
-            loadMovies(pageNumber,sortCriteria);
+            loadMovies();
             return;
         }
         if(model!=null){
             model.getMovies().addAll(moviesList.getMovies());
+            model.setLoaded_pages(moviesList.getLoaded_pages());
             Log.d("MoviesLoader","Model isn't null");
         }
         else{
@@ -96,9 +136,23 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
 
     @Override
     public void onMovieListFailure() {
-        if(view()!=null)
-            view().showError("Please Check Your Network Connectivity");
+        ariseError("Something Went Wrong .. Reconnecting");
+        pageNumber=pageNumber>1 ? pageNumber-1:1;
+    }
+
+    private void ariseError(String msg) {
+        if (view() != null)
+            view().showError(msg);
     }
 
 
+    @Override
+    public void onNetworkStateChanged(boolean isConnected) {
+        if(isConnected&&connectionError)
+            loadMovies();
+        if(!isConnected&&!connectionError){
+            connectionError=true;
+            ariseError("Check Your Network Connectivity");
+        }
+    }
 }
