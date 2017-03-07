@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
+import com.example.bethechange.nanomovieproject.MovieProjectApplication;
 import com.example.bethechange.nanomovieproject.R;
 import com.google.gson.Gson;
 
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        MovieProjectApplication.getSharedPrefrences().getString(getResources().getString(R.string.sort_by)
+                ,getResources().getString(R.string.sort_via_popularity));
 
     }
 

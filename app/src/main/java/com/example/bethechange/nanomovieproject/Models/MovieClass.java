@@ -31,7 +31,7 @@ public class MovieClass {
     boolean video;
     ArrayList<VideoInfo> videosInfo;
     ArrayList<Review>reviews;
-    String BASE_IMG_URL = MovieProjectApplication.getContext().getResources().getString(R.string.base_image_url);
+    String BASE_IMG_URL = MovieProjectApplication.getContext().getResources().getString(R.string.BASE_IMG_URL);
 
 
 
