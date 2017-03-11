@@ -2,6 +2,8 @@ package com.example.bethechange.nanomovieproject.Factories;
 
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
 import com.example.bethechange.nanomovieproject.Presenters.DetailsPresenter;
+import com.example.bethechange.nanomovieproject.Retrofit.ReviewsLoader;
+import com.example.bethechange.nanomovieproject.Retrofit.VideosLoader;
 import com.example.bethechange.nanomovieproject.base.PresenterFactory;
 import com.google.gson.Gson;
 
@@ -17,6 +19,6 @@ public class DetailsPresenterFactory implements PresenterFactory<DetailsPresente
     }
     @Override
     public DetailsPresenter create() {
-        return new DetailsPresenter(movieClass);
+        return new DetailsPresenter(movieClass,new ReviewsLoader(),new VideosLoader());
     }
 }

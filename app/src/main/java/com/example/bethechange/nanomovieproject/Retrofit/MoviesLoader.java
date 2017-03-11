@@ -3,6 +3,7 @@ package com.example.bethechange.nanomovieproject.Retrofit;
 import android.util.Log;
 
 import com.example.bethechange.nanomovieproject.GridScreenContract;
+import com.example.bethechange.nanomovieproject.Models.MovieClass;
 import com.example.bethechange.nanomovieproject.Models.MoviesList;
 import com.example.bethechange.nanomovieproject.MovieProjectApplication;
 import com.example.bethechange.nanomovieproject.R;
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;

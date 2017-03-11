@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class MoviesList {
     @SerializedName("results")
-    ArrayList<MovieClass> movies;
+    ArrayList<MovieClass> movies=new ArrayList<>();
     int total_pages=15054;
     int total_results=301061;
 

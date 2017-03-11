@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.bethechange.nanomovieproject.GridScreenContract;
+import com.example.bethechange.nanomovieproject.Models.FavoritesList;
+import com.example.bethechange.nanomovieproject.Models.MovieClass;
 import com.example.bethechange.nanomovieproject.Models.MoviesList;
 import com.example.bethechange.nanomovieproject.MovieProjectApplication;
 import com.example.bethechange.nanomovieproject.NetworkMonitor;
@@ -13,6 +15,8 @@ import com.example.bethechange.nanomovieproject.Retrofit.MoviesLoader;
 import com.example.bethechange.nanomovieproject.Utility;
 import com.example.bethechange.nanomovieproject.base.BasePresenter;
 import com.example.bethechange.nanomovieproject.base.PresenterFactory;
+
+import java.util.ArrayList;
 
 /**
  * Created by BeTheChange on 3/2/2017.
@@ -26,11 +30,17 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
     NetworkMonitor monitor;
     Thread monitorThread;
     String sortCriteria;
+    final String favSortCriteria="favorites";
     public GridPresenter(String sortCriteria){
         this.sortCriteria=sortCriteria;
-
+        model=new MoviesList();
        // initNetworkMonitor();
-        loadMovies();
+        FavoritesList.getInstance().loadFavs();
+        if(!sortCriteria.equals(favSortCriteria))
+            loadMovies();
+        else{
+            model.setMovies(FavoritesList.getInstance().getFavList());
+        }
     }
 
     private void initNetworkMonitor() {
@@ -45,7 +55,10 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
         super.unbindView();
        // monitor.unRegisterListener(this);
     }
+    private void loadFavMovies(){
 
+
+    }
     private void loadMovies() {
        /* if(!monitorThread.isAlive())
             initNetworkMonitor();*/
@@ -78,7 +91,9 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
 
     @Override
     protected void updateView() {
-             view().setMovies(model.getMovies());
+        if (view()==null)
+            return;
+        view().setMovies(model.getMovies());
     }
     @Override
     public void onItemClicked(int position){
@@ -108,8 +123,15 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
             return;
         this.sortCriteria = sortCriteria;
         pageNumber=1;
-        model=null;
-        loadMovies();
+        model=new MoviesList();
+        if(sortCriteria.equals(favSortCriteria)){
+            FavoritesList.getInstance().loadFavs();
+            model=new MoviesList();
+            model.setMovies(FavoritesList.getInstance().getFavList());
+        }
+        else
+            loadMovies();
+        updateView();
     }
 
     @Override

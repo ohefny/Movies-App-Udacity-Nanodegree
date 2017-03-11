@@ -8,18 +8,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bethechange.nanomovieproject.DetailsScreenContract;
 import com.example.bethechange.nanomovieproject.Factories.DetailsPresenterFactory;
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
+import com.example.bethechange.nanomovieproject.Models.Review;
+import com.example.bethechange.nanomovieproject.Models.VideoInfo;
 import com.example.bethechange.nanomovieproject.Presenters.DetailsPresenter;
 import com.example.bethechange.nanomovieproject.R;
 import com.example.bethechange.nanomovieproject.base.BasePresenter;
 import com.example.bethechange.nanomovieproject.base.BasePresenterFragment;
 import com.example.bethechange.nanomovieproject.base.PresenterFactory;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +40,7 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     @BindView(R.id.vote_count)TextView vote_count;
     @BindView(R.id.overview)TextView overview;
     @BindView(R.id.poster)ImageView poster;
-
+    @BindView(R.id.fav)CheckBox favCheckBox;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -63,7 +68,7 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
             movieJson=getArguments().getString(MOVIE_ARG).toString() ==null ? "" : getArguments().getString(MOVIE_ARG).toString();
        else
             movieJson=savedInstanceState.getString(MOVIE_ARG).toString();
-        movieJson=movieJson;
+
     }
 
     @Override
@@ -72,6 +77,12 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_details, container, false);
         ButterKnife.bind(this,view);
+        favCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().onFavoriteClicked(favCheckBox.isChecked());
+            }
+        });
         return view;
     }
 
@@ -116,5 +127,21 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
                 .placeholder(R.drawable.thumbnail).error(R.drawable.thumbnail).fit()
                 .into(poster);
        // poster.setScaleType(ImageView.ScaleType.FIT_XY);
+    }
+
+    //TODO::add logic code to this methods
+    @Override
+    public void updateReviews(ArrayList<Review> reviews) {
+
+    }
+
+    @Override
+    public void updateTrailers(ArrayList<VideoInfo> videos) {
+
+    }
+
+    @Override
+    public void setFavorite(boolean isFav) {
+        favCheckBox.setChecked(isFav);
     }
 }

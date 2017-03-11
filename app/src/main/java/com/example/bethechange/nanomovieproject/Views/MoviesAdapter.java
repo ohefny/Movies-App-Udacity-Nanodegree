@@ -33,6 +33,8 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
     ArrayList<MovieClass>movies;
     GridScreenContract.ListActions mInteractor;
+    okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient();
+    //OkHttp3Downloader okHttp3Downloader = new OkHttp3Downloader(okHttp3Client);
 
     public void setInterceptor(GridScreenContract.ListActions interceptor) {
         this.mInteractor = interceptor;
@@ -60,9 +62,8 @@ public class MoviesAdapter extends RecyclerView.Adapter {
     }
     public MoviesAdapter(ArrayList<MovieClass>movies){
         this.movies=movies;
-        OkHttpClient okHttpClient = new OkHttpClient();
         picasso= new Picasso.Builder(MovieProjectApplication.getContext())
-                .downloader(new com.jakewharton.picasso.OkHttp3Downloader(okHttpClient))
+                .downloader(new com.jakewharton.picasso.OkHttp3Downloader(okHttp3Client))
                 .build();
 
         // this.mInteractor=interactor;

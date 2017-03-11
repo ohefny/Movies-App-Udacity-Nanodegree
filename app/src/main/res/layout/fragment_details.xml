@@ -92,11 +92,11 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="18dp" />
 
-            <!--    <CheckBox
+              <CheckBox
                     android:id="@+id/fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@android:drawable/btn_star" /> -->
+                    android:button="@android:drawable/btn_star" />
 
             </LinearLayout>
 

@@ -2,6 +2,8 @@ package com.example.bethechange.nanomovieproject;
 
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
 import com.example.bethechange.nanomovieproject.Models.MoviesList;
+import com.example.bethechange.nanomovieproject.Models.Review;
+import com.example.bethechange.nanomovieproject.Models.VideoInfo;
 
 import java.util.ArrayList;
 
@@ -13,11 +15,20 @@ public interface DetailsScreenContract {
     interface View{
         void showError(String msg);
         void setMovieDetails(MovieClass movieDetails);
+        void updateReviews(ArrayList<Review>reviews);
+        void updateTrailers(ArrayList<VideoInfo>videos);
+        void setFavorite(boolean isFav);
     }
-    interface LoaderActions{
-        void onReviewsListLoaded(ArrayList<MovieClass.Review> reviews);
+    interface ReviewsLoaderActions{
+        void onReviewsListLoaded(Review.ReviewList list);
         void onReviewsListFailure();
 
     }
+    interface VideosLoaderActions{
+        void onVideosLoaded(VideoInfo.VideosInfoList list);
+        void OnVideosLoadFailure();
+
+    }
+
 
 }
