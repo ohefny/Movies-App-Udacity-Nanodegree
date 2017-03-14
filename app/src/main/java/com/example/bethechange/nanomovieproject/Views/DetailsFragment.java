@@ -1,17 +1,23 @@
 package com.example.bethechange.nanomovieproject.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bethechange.nanomovieproject.Database.MovieContract;
 import com.example.bethechange.nanomovieproject.DetailsScreenContract;
 import com.example.bethechange.nanomovieproject.Factories.DetailsPresenterFactory;
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
@@ -33,6 +39,7 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String MOVIE_ARG = "MOVIE-INFO";
+    public static String MOVIE_TITLE="About Movie";
     private String movieJson="";
     @BindView(R.id.title) TextView title;
     @BindView(R.id.year) TextView year;
@@ -41,7 +48,10 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     @BindView(R.id.overview)TextView overview;
     @BindView(R.id.poster)ImageView poster;
     @BindView(R.id.fav)CheckBox favCheckBox;
-
+    @BindView(R.id.trailerssList)RecyclerView trailersList;
+    @BindView(R.id.reviewsList)RecyclerView reviewsList;
+    TitlesAdapter trailersADP;
+    TitlesAdapter reviewsADP;
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -72,6 +82,15 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     }
 
     @Override
+    protected void onPresenterPrepared(@NonNull DetailsPresenter presenter) {
+        super.onPresenterPrepared(presenter);
+        trailersADP=new TitlesAdapter(getContext(), null,(DetailsScreenContract.TrailersInteractor)getPresenter());
+        reviewsADP=new TitlesAdapter(getContext(),null,(DetailsScreenContract.ReviewsInteractor)getPresenter());
+        trailersList.setAdapter(trailersADP);
+        reviewsList.setAdapter(reviewsADP);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -83,6 +102,9 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
                 getPresenter().onFavoriteClicked(favCheckBox.isChecked());
             }
         });
+        trailersList.setLayoutManager(new LinearLayoutManager(getContext()));
+        reviewsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return view;
     }
 
@@ -118,6 +140,9 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
 
     @Override
     public void setMovieDetails(MovieClass movieDetails) {
+        MOVIE_TITLE=movieDetails.getTitle();
+        ((AppCompatActivity)getActivity())
+                .getSupportActionBar().setTitle(movieDetails.getTitle());
         title.setText(movieDetails.getTitle());
         year.setText(movieDetails.getRelease_date().toString());
         rate.setText(String.valueOf(movieDetails.getVote_average()) +" / 10");
@@ -129,16 +154,44 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
        // poster.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
-    //TODO::add logic code to this methods
     @Override
-    public void updateReviews(ArrayList<Review> reviews) {
-
+    public void updateReviews(final ArrayList<Review> reviews) {
+           reviewsADP.setTitles(getReviewsNames(reviews));
+           reviewsADP.notifyDataSetChanged();
     }
-
     @Override
     public void updateTrailers(ArrayList<VideoInfo> videos) {
-
+        trailersADP.setTitles(getTrailersNames(videos));
+        trailersADP.notifyDataSetChanged();
     }
+
+    @Override
+    public void openReviewFragment(Review review) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.details_container,new ReviewDetailsFragment(review)).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void openYoutube(VideoInfo videoInfo) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(videoInfo.getFullLink())));
+    }
+
+    private ArrayList<String> getReviewsNames(ArrayList<Review> reviews) {
+        ArrayList<String>ReviewAuthors=new ArrayList<String>();
+        for (Review r: reviews) {
+            ReviewAuthors.add(r.getAuthor());
+        }
+        return ReviewAuthors;
+    }
+    private ArrayList<String> getTrailersNames(ArrayList<VideoInfo> trailers) {
+        ArrayList<String>TrailersNames=new ArrayList<String>();
+        for (VideoInfo r: trailers) {
+            TrailersNames.add(r.getName());
+        }
+        return TrailersNames;
+    }
+
+
 
     @Override
     public void setFavorite(boolean isFav) {

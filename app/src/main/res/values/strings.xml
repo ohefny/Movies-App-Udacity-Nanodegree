@@ -16,7 +16,7 @@
     <string name="BASE_YOUTUBE_LINK">https://www.youtube.com/watch?v=</string>
 
     <array name="pref_sort_values">
-        <item>top_rated </item>
+        <item>top_rated</item>
         <item>popular</item>
         <item>favorites</item>
     </array>

@@ -9,12 +9,18 @@ import java.util.ArrayList;
  */
 
 public class Review{
-    String content;
-    String name;
+    String id;
+    String content  ;
+    String author;
 
 
     public Review(){
 
+    }
+
+    public Review(String author, String content) {
+        this.author=author;
+        this.content=content;
     }
 
     public String getContent() {
@@ -24,18 +30,29 @@ public class Review{
     public void setContent(String content) {
         this.content = content;
     }
-
-    public String getName() {
-        return name;
+    public String getAuthor() {
+        if(author==null||author.isEmpty())
+            return "Unknown Author";
+        return author;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthor(String author) {
+        this.author = author;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
-        return  (o instanceof VideoInfo) && ((VideoInfo)o).name.equals(this.name);
+        return  (o instanceof Review) && ((Review)o).id.equals(this.id);
 
     }
     public static class ReviewList{

@@ -21,7 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
          if(actionBar!=null){
              actionBar.setDisplayHomeAsUpEnabled(true);
-             actionBar.setTitle("About Movie");
+             actionBar.setTitle(DetailsFragment.MOVIE_TITLE);
          }
         if(savedInstanceState==null){
             DetailsFragment detailsFragment=DetailsFragment.newInstance(getIntent().getStringExtra(Movie_ARG));

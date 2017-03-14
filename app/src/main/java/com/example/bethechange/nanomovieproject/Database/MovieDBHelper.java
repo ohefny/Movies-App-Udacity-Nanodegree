@@ -97,7 +97,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     public static ContentValues getReviewContentValues( Review review ,int movieID){
         ContentValues contentValues=new ContentValues();
         contentValues.put(MovieContract.ReviewEntry.COLUMN_MOVIE_KEY,movieID);
-        contentValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR,review.getName());
+        contentValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR,review.getAuthor());
         contentValues.put(MovieContract.ReviewEntry.COLUMN_CONTENT,review.getContent());
         return contentValues;
     }
@@ -116,7 +116,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             ContentValues contentValues=new ContentValues();
 
             contentValues.put(MovieContract.ReviewEntry.COLUMN_MOVIE_KEY,movieID);
-            contentValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR,reviews.get(i).getName());
+            contentValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR,reviews.get(i).getAuthor());
             contentValues.put(MovieContract.ReviewEntry.COLUMN_CONTENT,reviews.get(i).getContent());
             res=db.insert(MovieContract.ReviewEntry.TABLE_NAME,null,contentValues)==-1 ? false:true;;
         }
@@ -153,13 +153,13 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         ArrayList<VideoInfo>trailers=new ArrayList<>();
         SQLiteDatabase db=getWritableDatabase();
         Cursor trailerCurs=db.rawQuery("SELECT * FROM "+MovieContract.TrailerEntry.TABLE_NAME+" WHERE "+MovieContract.TrailerEntry.COLUMN_MOVIE_KEY
-                + " = ? ;", new String[]{String.valueOf(movieId)});
+                + " = ? ", new String[]{String.valueOf(movieId)});
         while (trailerCurs.moveToNext()){
 
             String key=trailerCurs.getString(trailerCurs.getColumnIndex(MovieContract.TrailerEntry.COLUMN_TRAILER_KEY));
             String name=trailerCurs.getString(trailerCurs.getColumnIndex(MovieContract.TrailerEntry.COLUMN_TRAILER_NAME));
             String Link=trailerCurs.getString(trailerCurs.getColumnIndex(MovieContract.TrailerEntry.COLUMN_LINK));
-            //trailers.add(new VideoInfo(name, key));
+            trailers.add(new VideoInfo(name, key,Link));
 
 
         }
@@ -171,12 +171,12 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         ArrayList<Review>reviews=new ArrayList<>();
         SQLiteDatabase db=getWritableDatabase();
         Cursor reviewsCurs=db.rawQuery("SELECT * FROM " + MovieContract.ReviewEntry.TABLE_NAME + " WHERE " + MovieContract.ReviewEntry.COLUMN_MOVIE_KEY
-                + " = ? ;", new String[]{String.valueOf(movieId)});
+                + " = ? ", new String[]{String.valueOf(movieId)});
         while (reviewsCurs.moveToNext()){
 
             String author=reviewsCurs.getString(reviewsCurs.getColumnIndex(MovieContract.ReviewEntry.COLUMN_AUTHOR));
             String content=reviewsCurs.getString(reviewsCurs.getColumnIndex(MovieContract.ReviewEntry.COLUMN_CONTENT));
-            //reviews.add(new Review(author,content));
+            reviews.add(new Review(author,content));
 
         }
         db.close();
@@ -206,6 +206,11 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             favs.add(movieClass);
         }
         moviesCurs.close();
+        for (MovieClass mov:favs) {
+            mov.setReviews(loadReviews(mov.getId()));
+            mov.setVideosInfo(loadTrailers(mov.getId()));
+
+        }
         db.close();
         return favs;
     }

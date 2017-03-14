@@ -63,7 +63,7 @@ public class MoviesAdapter extends RecyclerView.Adapter {
     public MoviesAdapter(ArrayList<MovieClass>movies){
         this.movies=movies;
         picasso= new Picasso.Builder(MovieProjectApplication.getContext())
-                .downloader(new com.jakewharton.picasso.OkHttp3Downloader(okHttp3Client))
+            //    .downloader(new com.jakewharton.picasso.OkHttp3Downloader(okHttp3Client))
                 .build();
 
         // this.mInteractor=interactor;

@@ -110,7 +110,6 @@
             android:paddingTop="0dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp" />
-        <!--
                 <TextView
                     android:id="@+id/trailerHeader"
                     android:layout_width="match_parent"
@@ -127,15 +126,15 @@
 
                     />
 
-                <LinearLayout
-                    android:id="@+id/trailerlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"></LinearLayout>
 
-                <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailerssList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
                     android:id="@+id/reviewHeader"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -149,24 +148,11 @@
                     android:textSize="20dp"
 
                     />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviewsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
 
-                <LinearLayout
-                    android:id="@+id/reviewslinearlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"></LinearLayout>
-
-                <TextView
-                    android:id="@+id/reviewContent"
-                    android:background="@drawable/abc_list_pressed_holo_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="18dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp" />
-
-            -->
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

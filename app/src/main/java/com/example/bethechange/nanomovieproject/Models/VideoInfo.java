@@ -20,6 +20,11 @@ public class VideoInfo{
     public VideoInfo(){
     }
 
+    public VideoInfo(String name, String key, String link) {
+        this.name=name;
+        this.key=key;
+        this.fullLink=link;
+    }
 
 
     public String getkey() {
@@ -55,7 +60,7 @@ public class VideoInfo{
         this.id = id;
     }
     public String getFullLink(){
-        return fullLink;
+        return BASE_YOUTUBE_LINK+key;
 
 
     }

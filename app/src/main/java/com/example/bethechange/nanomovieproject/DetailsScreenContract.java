@@ -17,6 +17,8 @@ public interface DetailsScreenContract {
         void setMovieDetails(MovieClass movieDetails);
         void updateReviews(ArrayList<Review>reviews);
         void updateTrailers(ArrayList<VideoInfo>videos);
+        void openReviewFragment(Review review);
+        void openYoutube(VideoInfo videoInfo);
         void setFavorite(boolean isFav);
     }
     interface ReviewsLoaderActions{
@@ -28,6 +30,12 @@ public interface DetailsScreenContract {
         void onVideosLoaded(VideoInfo.VideosInfoList list);
         void OnVideosLoadFailure();
 
+    }
+    interface ReviewsInteractor{
+        void onReviewClicked(int pos);
+    }
+    interface TrailersInteractor{
+        void onTrailersClicked(int pos);
     }
 
 

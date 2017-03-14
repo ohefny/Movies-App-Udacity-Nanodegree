@@ -16,7 +16,9 @@ import com.example.bethechange.nanomovieproject.base.BasePresenter;
  * Created by BeTheChange on 3/2/2017.
  */
 
-public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenContract.View> implements DetailsScreenContract.ReviewsLoaderActions,DetailsScreenContract.VideosLoaderActions {
+public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenContract.View> implements
+        DetailsScreenContract.ReviewsLoaderActions,DetailsScreenContract.VideosLoaderActions,DetailsScreenContract.ReviewsInteractor
+        ,DetailsScreenContract.TrailersInteractor{
     boolean isFav;
     ReviewsLoader reviewsLoader;
     VideosLoader videosLoader;
@@ -57,9 +59,13 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
 
     @Override
     protected void updateView() {
-
+        if(model==null)
+            return;
         view().setMovieDetails(model);
         view().setFavorite(isFav);
+        view().updateReviews(model.getReviews());
+        view().updateTrailers(model.getVideosInfo());
+
     }
 
     @Override
@@ -67,6 +73,7 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
         super.bindView(view);
         if(model!=null)
             updateView();
+
     }
     public void onFavoriteClicked(boolean isFav){
         if(isFav){
@@ -90,6 +97,8 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
     @Override
     public void onReviewsListLoaded(Review.ReviewList list) {
           model.setReviews(list.getReviews());
+        if(view()!=null)
+            view().updateReviews(list.getReviews());
     }
 
     @Override
@@ -100,10 +109,26 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
     @Override
     public void onVideosLoaded(VideoInfo.VideosInfoList list) {
          model.setVideosInfo(list.getVideoInfoArrayList());
+        if(view()!=null)
+            view().updateTrailers(list.getVideoInfoArrayList());
+
     }
 
     @Override
     public void OnVideosLoadFailure() {
          ariseError("Unable To Fetch Movie Trailers");
+    }
+
+    @Override
+    public void onReviewClicked(int pos) {
+             if (view()!=null)
+                 view().openReviewFragment(model.getReviews().get(pos));
+    }
+
+    @Override
+    public void onTrailersClicked(int pos) {
+        if (view()!=null)
+            view().openYoutube(model.getVideosInfo().get(pos));
+
     }
 }
