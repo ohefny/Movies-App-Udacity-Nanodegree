@@ -30,7 +30,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 
 public class MoviesAdapter extends RecyclerView.Adapter {
     Picasso picasso;
-
+    static boolean firstItemSelected=false;
     ArrayList<MovieClass>movies;
     GridScreenContract.ListActions mInteractor;
     okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient();
@@ -38,11 +38,17 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
     public void setInterceptor(GridScreenContract.ListActions interceptor) {
         this.mInteractor = interceptor;
+
+    }
+
+    public void restSelection() {
+        firstItemSelected=false;
     }
 
     public class ImageHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.gridImg) ImageView gridImg;
         GridScreenContract.ListActions clickListener;
+
         public ImageView getGridImg() {
             return gridImg;
         }
@@ -53,10 +59,15 @@ public class MoviesAdapter extends RecyclerView.Adapter {
             gridImg.setOnClickListener(this);
             this.clickListener=clickListener;
 
+            if(!firstItemSelected&&MainActivity.TWO_PANEL){
+                clickListener.onItemClicked(0);
+                firstItemSelected=true;
+            }
         }
 
         @Override
         public void onClick(View v) {
+
             clickListener.onItemClicked(getAdapterPosition());
         }
     }

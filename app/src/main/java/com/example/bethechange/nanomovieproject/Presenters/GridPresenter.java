@@ -39,6 +39,8 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
     Thread monitorThread;
     String sortCriteria;
     final String favSortCriteria="favorites";
+    private boolean resetSelection=true;
+
     public GridPresenter(String sortCriteria){
         this.sortCriteria=sortCriteria;
         model=new MoviesList();
@@ -109,6 +111,10 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
     protected void updateView() {
         if (view()==null)
             return;
+        if(resetSelection){
+            view().restSelection();
+            resetSelection=false;
+        }
         view().setMovies(model.getMovies());
     }
     @Override
@@ -140,6 +146,7 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
         this.sortCriteria = sortCriteria;
         pageNumber=1;
         model=new MoviesList();
+        resetSelection=true;
         if(sortCriteria.equals(favSortCriteria)){
             FavoritesList.getInstance().loadFavs();
             model=new MoviesList();

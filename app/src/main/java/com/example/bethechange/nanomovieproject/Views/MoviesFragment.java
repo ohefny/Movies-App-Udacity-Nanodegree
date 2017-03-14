@@ -60,8 +60,10 @@ public class MoviesFragment extends BasePresenterFragment<GridPresenter,GridScre
         String sortStr=MovieProjectApplication.getSharedPrefrences().getString(
                 MovieProjectApplication.getContext().getString(R.string.pref_sort),
                 MovieProjectApplication.getContext().getString(R.string.sort_via_popularity));
-        if(getPresenter()!=null)
+        if(getPresenter()!=null){
             getPresenter().setSortCriteria(sortStr);
+
+        }
         super.onResume();
     }
 
@@ -71,8 +73,9 @@ public class MoviesFragment extends BasePresenterFragment<GridPresenter,GridScre
 
         if(mAdapter==null)
             mAdapter=new MoviesAdapter(mMovies);
-        mAdapter.setInterceptor(presenter);
+
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setInterceptor(getPresenter());
     }
 
     @Override
@@ -135,14 +138,21 @@ public class MoviesFragment extends BasePresenterFragment<GridPresenter,GridScre
 
     @Override
     public void setMovies(ArrayList<MovieClass> movies) {
+
         mMovies=movies;
         mAdapter.setMovies(movies);
         mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void openDetailsScreen(MovieClass movie) {
         mListener.onMovieClicked(movie);
+    }
+
+    @Override
+    public void restSelection() {
+        mAdapter.restSelection();
     }
 
 

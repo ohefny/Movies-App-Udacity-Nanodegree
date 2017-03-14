@@ -14,7 +14,8 @@ public interface GridScreenContract {
          void showError(String msg);
          void setMovies(ArrayList<MovieClass>movies);
          void openDetailsScreen(MovieClass movie);
-    }
+         void restSelection();
+     }
     interface LoaderActions{
           void onMovieListLoaded(MoviesList moviesList);
           void onMovieListFailure();

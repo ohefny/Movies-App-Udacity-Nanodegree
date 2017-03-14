@@ -26,6 +26,8 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
 
     public DetailsPresenter(MovieClass movieClass, ReviewsLoader reviewsLoader, VideosLoader videosLoader) {
         super();
+        if(movieClass==null)
+            return;
         model=movieClass;
         this.reviewsLoader=reviewsLoader;
         this.videosLoader=videosLoader;
@@ -88,7 +90,8 @@ public class DetailsPresenter extends BasePresenter<MovieClass,DetailsScreenCont
     @Override
     public void unbindView() {
         super.unbindView();
-        FavoritesList.getInstance().updateFavs(model);
+        if(model!=null)
+            FavoritesList.getInstance().updateFavs(model);
     }
 
     private void updateFavoritesList() {

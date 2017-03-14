@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements MoviesFragment.OnMoviesFragmentInteractionListener {
 
+    public static boolean TWO_PANEL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,18 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         MovieProjectApplication.getSharedPrefrences().getString(getResources().getString(R.string.sort_by)
                 ,getResources().getString(R.string.sort_via_popularity));
+        if (findViewById(R.id.details_container) != null) {
+            TWO_PANEL = true;
+            if (savedInstanceState == null) {
+                DetailsFragment detailsFragment=DetailsFragment.newInstance("");
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.details_container, detailsFragment)
+                        .commit();
+            }
+
+        } else {
+            TWO_PANEL = false;
+        }
 
     }
 
@@ -35,9 +49,19 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
 
     @Override
     public void onMovieClicked(MovieClass movieClass) {
-        Intent intent=new Intent(this,DetailsActivity.class);
-        intent.putExtra(DetailsActivity.Movie_ARG,new Gson().toJson(movieClass));
-        startActivity(intent);
+        if(TWO_PANEL){
+            DetailsFragment detailsFragment=DetailsFragment.newInstance(new Gson().toJson(movieClass));
+            getSupportFragmentManager().beginTransaction().replace
+                    (R.id.details_container,detailsFragment).commit();
+
+        }
+        else{
+            Intent intent=new Intent(this,DetailsActivity.class);
+            intent.putExtra(DetailsActivity.Movie_ARG,new Gson().toJson(movieClass));
+            startActivity(intent);
+
+        }
+
     }
 
     @Override

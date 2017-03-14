@@ -75,9 +75,15 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
 
         super.onCreate(savedInstanceState);
         if(savedInstanceState==null)
-            movieJson=getArguments().getString(MOVIE_ARG).toString() ==null ? "" : getArguments().getString(MOVIE_ARG).toString();
+        {
+         if(getArguments().getString(MOVIE_ARG)==null)
+             movieJson="";
+         else
+             movieJson=getArguments().getString(MOVIE_ARG).toString();
+        }
        else
             movieJson=savedInstanceState.getString(MOVIE_ARG).toString();
+
 
     }
 
@@ -129,7 +135,8 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
     @NonNull
     @Override
     protected PresenterFactory getPresenterFactory() {
-        return new DetailsPresenterFactory(movieJson);
+        PresenterFactory p= new DetailsPresenterFactory(movieJson);
+        return p;
     }
 
 
@@ -140,6 +147,8 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
 
     @Override
     public void setMovieDetails(MovieClass movieDetails) {
+        if(movieDetails==null)
+            return;
         MOVIE_TITLE=movieDetails.getTitle();
         ((AppCompatActivity)getActivity())
                 .getSupportActionBar().setTitle(movieDetails.getTitle());
@@ -156,11 +165,16 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
 
     @Override
     public void updateReviews(final ArrayList<Review> reviews) {
-           reviewsADP.setTitles(getReviewsNames(reviews));
-           reviewsADP.notifyDataSetChanged();
+      // ViewGroup.LayoutParams params=reviewsList.getLayoutParams();
+       // params.height=reviews.size()*50;
+      //  reviewsList.setLayoutParams(params);
+        reviewsList.setMinimumHeight(reviews.size()*50);
+        reviewsADP.setTitles(getReviewsNames(reviews));
+        reviewsADP.notifyDataSetChanged();
     }
     @Override
     public void updateTrailers(ArrayList<VideoInfo> videos) {
+        trailersList.setMinimumHeight(videos.size()*50);
         trailersADP.setTitles(getTrailersNames(videos));
         trailersADP.notifyDataSetChanged();
     }
