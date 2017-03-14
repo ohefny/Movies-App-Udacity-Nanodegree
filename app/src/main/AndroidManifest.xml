@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bethechange.nanomovieproject">
-
+        package="com.example.bethechange.nanomovieproject">
+    <permission android:name="com.example.bethechange.nanomovieproject.permission.READ" />
+    <permission android:name="com.example.bethechange.nanomovieproject.permission.WRITE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
     <application
         android:name=".MovieProjectApplication"
@@ -25,6 +27,12 @@
             android:label="@string/title_activity_details"
             android:theme="@style/AppTheme" />
         <activity android:name=".Views.SettingsActivity"></activity>
+        <provider
+            android:authorities="com.example.bethechange.nanomovieproject"
+            android:name=".Database.MoviesContentProvider"
+            android:readPermission="com.example.bethechange.nanomovieproject.permission.READ"
+            android:writePermission="com.example.bethechange.nanomovieproject.permission.WRITE"
+            android:exported="true" />
     </application>
 
 </manifest>

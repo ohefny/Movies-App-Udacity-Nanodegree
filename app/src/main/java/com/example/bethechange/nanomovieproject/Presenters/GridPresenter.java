@@ -1,9 +1,14 @@
 package com.example.bethechange.nanomovieproject.Presenters;
 
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.bethechange.nanomovieproject.Database.MovieContract;
 import com.example.bethechange.nanomovieproject.GridScreenContract;
 import com.example.bethechange.nanomovieproject.Models.FavoritesList;
 import com.example.bethechange.nanomovieproject.Models.MovieClass;
@@ -17,6 +22,9 @@ import com.example.bethechange.nanomovieproject.base.BasePresenter;
 import com.example.bethechange.nanomovieproject.base.PresenterFactory;
 
 import java.util.ArrayList;
+
+import static com.example.bethechange.nanomovieproject.Database.MovieContract.Base_Content_URI;
+import static com.example.bethechange.nanomovieproject.Database.MovieContract.MOVIES_PATH;
 
 /**
  * Created by BeTheChange on 3/2/2017.
@@ -41,6 +49,14 @@ public class GridPresenter extends BasePresenter<MoviesList,GridScreenContract.V
         else{
             model.setMovies(FavoritesList.getInstance().getFavList());
         }
+        Uri CONTENT_URI= MovieContract.MovieEntry.CONTENT_URI;
+        Log.d("GridPr",CONTENT_URI.toString());
+        ContentResolver cr=MovieProjectApplication.getContext().getContentResolver();
+        Cursor cursor=cr.query(CONTENT_URI,null,null,null,null);
+        while (cursor.moveToNext()){
+            cursor.getColumnNames().toString();
+        }
+
     }
 
     private void initNetworkMonitor() {

@@ -58,7 +58,6 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         db.execSQL("DROP TABLE IF EXISTS " + MovieContract.TrailerEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieContract.ReviewEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MovieContract.MovieEntry.TABLE_NAME);
@@ -82,6 +81,34 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
         return ret;
     }
+    public static ContentValues getMovieContentValues(MovieClass movieClass){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(MovieContract.MovieEntry._ID,movieClass.getId());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,movieClass.getVote_average());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_DATE,movieClass.getRelease_date());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW,movieClass.getOverview());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER, movieClass.getPoster_path());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RATE, movieClass.getPopularity());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, movieClass.getTitle());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, movieClass.getVote_count());
+        return contentValues;
+
+    }
+    public static ContentValues getReviewContentValues( Review review ,int movieID){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(MovieContract.ReviewEntry.COLUMN_MOVIE_KEY,movieID);
+        contentValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR,review.getName());
+        contentValues.put(MovieContract.ReviewEntry.COLUMN_CONTENT,review.getContent());
+        return contentValues;
+    }
+    public static ContentValues getTrailerContentValues(VideoInfo videoInfo,int movieID){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(MovieContract.TrailerEntry.COLUMN_MOVIE_KEY,movieID);
+        contentValues.put(MovieContract.TrailerEntry.COLUMN_TRAILER_KEY,videoInfo.getkey());
+        contentValues.put(MovieContract.TrailerEntry.COLUMN_TRAILER_NAME,videoInfo.getName());
+        contentValues.put(MovieContract.TrailerEntry.COLUMN_LINK,videoInfo.getFullLink());
+        return contentValues;
+    }
     public Boolean InsertReviews(ArrayList<Review> reviews, int  movieID){
         SQLiteDatabase db=getWritableDatabase();
         boolean res=true;
@@ -93,6 +120,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             contentValues.put(MovieContract.ReviewEntry.COLUMN_CONTENT,reviews.get(i).getContent());
             res=db.insert(MovieContract.ReviewEntry.TABLE_NAME,null,contentValues)==-1 ? false:true;;
         }
+        db.close();
         return res;
     }
     public boolean InsertTrailers(ArrayList<VideoInfo>trailers,int  movieID){
@@ -108,16 +136,17 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             res=db.insert(MovieContract.TrailerEntry.TABLE_NAME,null,contentValues)==-1 ? false:true;;
 
         }
+        db.close();
         return res;
 
     }
     public boolean DeleteMovie(int movieID){
         SQLiteDatabase db=getWritableDatabase();
         boolean res=true;
-        db.delete(MovieContract.ReviewEntry.TABLE_NAME, MovieContract.ReviewEntry._ID+" = ? ",new String[]{String.valueOf(movieID)});
-        db.delete(MovieContract.TrailerEntry.TABLE_NAME, MovieContract.TrailerEntry._ID+" = ? ",new String[]{String.valueOf(movieID)});
+        db.delete(MovieContract.ReviewEntry.TABLE_NAME, MovieContract.ReviewEntry.COLUMN_MOVIE_KEY+" = ? ",new String[]{String.valueOf(movieID)});
+        db.delete(MovieContract.TrailerEntry.TABLE_NAME, MovieContract.TrailerEntry.COLUMN_MOVIE_KEY+" = ? ",new String[]{String.valueOf(movieID)});
         res=db.delete(MovieContract.MovieEntry.TABLE_NAME, MovieContract.MovieEntry._ID+" = ? ",new String[]{String.valueOf(movieID)})!=-1?true:false;
-
+        db.close();
         return res;
     }
     public ArrayList<VideoInfo> loadTrailers(int movieId){
@@ -132,7 +161,10 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             String Link=trailerCurs.getString(trailerCurs.getColumnIndex(MovieContract.TrailerEntry.COLUMN_LINK));
             //trailers.add(new VideoInfo(name, key));
 
+
         }
+        trailerCurs.close();
+        db.close();
         return trailers;
     }
     public ArrayList<Review> loadReviews(int movieId){
@@ -147,6 +179,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             //reviews.add(new Review(author,content));
 
         }
+        db.close();
         return reviews;
     }
     public ArrayList<MovieClass> loadFavoritesMovies(){
@@ -172,7 +205,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             movieClass.setVideosInfo(loadTrailers(movieClass.getId()));
             favs.add(movieClass);
         }
-
+        moviesCurs.close();
+        db.close();
         return favs;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bethechange.nanomovieproject.Models;
 
 import com.example.bethechange.nanomovieproject.Database.MovieDBHelper;
+import com.example.bethechange.nanomovieproject.GridScreenContract;
 import com.example.bethechange.nanomovieproject.MovieProjectApplication;
 
 import java.util.ArrayList;
@@ -33,14 +34,32 @@ public class FavoritesList {
     public boolean isLoaded() {
         return loaded;
     }
-    public void loadFavs(){
-        if(loaded)
+    public void loadFavs(GridScreenContract.LoaderActions mListener){
+        MoviesList moviesList=new MoviesList();
+        if(loaded){
+            moviesList.setMovies(favList);
+            mListener.onMovieListLoaded(moviesList);
             return;
+        }
+        favList=movieDBHelper.loadFavoritesMovies();
+        moviesList.setMovies(favList);
+        if(favList!=null){
+            loaded=true;
+            numOfMovies=favList.size();
+        }
+        mListener.onMovieListLoaded(moviesList);
+    }
+    public void loadFavs(){
+
+        if(loaded){
+            return;
+        }
         favList=movieDBHelper.loadFavoritesMovies();
         if(favList!=null){
             loaded=true;
             numOfMovies=favList.size();
         }
+
     }
     public void updateFavs(MovieClass updatedMovie){
         if(favList.size()>numOfMovies){
