@@ -181,8 +181,9 @@ public class DetailsFragment extends BasePresenterFragment<DetailsPresenter,Deta
 
     @Override
     public void openReviewFragment(Review review) {
+        ReviewDetailsFragment reviewDetailsFragment=ReviewDetailsFragment.newInstance(review.getContent());
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details_container,new ReviewDetailsFragment(review)).addToBackStack(null).commit();
+                    .replace(R.id.details_container,reviewDetailsFragment).addToBackStack(null).commit();
     }
 
     @Override

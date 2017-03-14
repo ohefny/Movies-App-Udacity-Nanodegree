@@ -16,12 +16,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ReviewDetailsFragment extends Fragment {
-    Review mReview;
+    private static final String REVIEW_ARG ="REVIEW" ;
+    String mReview;
     @BindView(R.id.reviewContetnTV)TextView revContent;
-    public ReviewDetailsFragment(Review mReview) {
-        this.mReview=mReview;
-    }
 
+   public ReviewDetailsFragment(){
+
+   }
 
 
     @Override
@@ -37,9 +38,18 @@ public class ReviewDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_review_details, container, false);
         ButterKnife.bind(this,view);
-        revContent.setText(mReview.getContent());
+        mReview=getArguments().getString(REVIEW_ARG);
+        if(mReview!=null)
+            revContent.setText(mReview);
         return view;
     }
 
 
+    public static ReviewDetailsFragment newInstance(String content) {
+        ReviewDetailsFragment fragment = new ReviewDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(REVIEW_ARG, content);
+        fragment.setArguments(args);
+        return fragment;
+    }
 }
