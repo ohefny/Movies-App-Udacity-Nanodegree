@@ -1,77 +1,23 @@
-<div align="center">
-  <!-- FeedMe Logo -->
-  <a href="https://github.com/ohefny/FeedMe-Application/releases">
-    <img src="https://lh5.googleusercontent.comrrgufPtoWUGqaKqC6-GwwvTeSGs3teTOi6Xt70m8pSgYTVYoy87Gms_7gp6bsREUiRMuBqvM=w1286-h638"
-      alt="FeedMe Logo" />
-  </a>
-</div>
-
-## Table of Content
-- [About FeedMe](#about-feedme)
-- [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Features](#features)
-- [Illustration](#illustration)
-- [Technologies](#technologies)
-- [Future Work](#future-work)
-- [About Developer](#about-developer)
-
-## About FeedMe
+## About Movies App
   
-  An Android application that allow users ​to follow blogs, magazines, and other sites that matter to them by fetching these sites feeds and allow the user to read them by fetching the full article if needed by the user 
+  An Android app that shows grid of movies sorted by one of those criteria ( Popular, Top Rated, Favorites ) 
+  The App was part of Android Developer Nanodegree 
 
 ## Getting Started
-
-  Go to release section and download the latest version of FeedMe
-
-## Prerequisites
-  
-  All You Need to use FeedMe is having android device with API > 16 , Google play services(installed by default) and Gmail 
+  Go to release section and download the latest version of Movie App
 
 ## Features
-  - Material Design
-  - Follow any blog or news website by adding it's rss link
-  - Favorite any article
-  - Save any article for offline readings
-  - Mark article as read 
-  - Open full article inside Application
-  - Automatic Sync for new articles
-  - Automatic deletion of old articles
-  - All articles can be viewed if no internet available but can't open any unless it's saved for offline reading
-  - Categorize similiar sites in one category
-  - View articles by category/site
-  - View subscriptions by category
-  - Search articles 
-  - Site suggestions 
-  - Backup Your data to be used after app reinstallation or data  loss
+  - Favorite any Movie
+  - View movies by specific sort criteria
+  - View details (cast,overview,trailers) of any movie 
 
-
-
-
-## Illustration
-
-Explain how to run the automated tests for this system
-
-## Technologies
-
-  - Firebase (RealTime Database,Authentication )
-  - Sqlite Database
-  - Restful API
-  - Json
-
-## Tools
-
-  - Rss2Json API
-  - FullTextExtractor API
-  - Google Custom Search API
-  - PKrss Library
+## Libraries
+  - Retrofit
   - OkHttp
   - Picasso
+  - ButterKnife
   - Gson
-
-## Future Work
-  - Allow users to follow other users and see their subscriptions and recommeded reads
-  - Enhance UI for more comfort reading 
+  - Sqlite Database
 
 ## About Developer
   <div align="center">
